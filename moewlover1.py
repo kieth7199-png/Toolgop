@@ -1,16 +1,32 @@
-import time
-from time import strftime
 import os
 import sys
-import requests
+import time
 import json
-from time import sleep
-from datetime import datetime, timedelta
-import base64
+import requests
+import platform
+import hashlib
 import subprocess
+from datetime import datetime, timedelta
+from time import sleep, strftime
+
+# ==========================================================
+# [ TỰ ĐỘNG CÀI ĐẶT THƯ VIỆN THIẾU ]
+# ==========================================================
+def install_dependencies():
+    try:
+        from pystyle import Colors, Colorate, Write
+    except ImportError:
+        print("\033[1;36m[*] Đang cài đặt thư viện hệ thống (pystyle)...")
+        os.system("pip install pystyle colorama requests")
+        print("\033[1;32m[✓] Cài đặt hoàn tất! Đang khởi động lại...")
+        sleep(2)
+        # Khởi động lại script sau khi cài xong
+        os.execl(sys.executable, sys.executable, *sys.argv)
+
+install_dependencies()
 from pystyle import Colors, Colorate
 
-# Bảng màu xanh da trời
+# Bảng màu ANSI cơ bản
 xnhac = "\033[1;36m"
 xduong = "\033[1;34m"
 trang = "\033[1;37m"
@@ -23,7 +39,6 @@ def clear():
     os.system("cls" if os.name == "nt" else "clear")
 
 def banner():
-    # Đã sửa lại chữ MOEW LOVER chuẩn xác
     banner_text = f"""
  ███╗   ███╗ ██████╗ ███████╗ ██╗    ██╗    ██╗      ██████╗ ██╗   ██╗ ███████╗ ██████╗ 
  ████╗ ████║██╔═══██╗██╔════╝ ██║    ██║    ██║     ██╔═══██╗██║   ██║ ██╔════╝ ██╔══██╗
@@ -39,10 +54,11 @@ Tool By: Moew Lover | Tiktok: moewlovertool
 def v_dong(text):
     return Colorate.Diagonal(Colors.cyan_to_blue, text)
 
+# --- KHỞI CHẠY ---
 clear()
 banner()
 
-# --- DANH MỤC TOOL ---
+# --- DANH MỤC TOOL (RÚT GỌN CHO GIAO DIỆN SẠCH) ---
 print(v_dong("╔═════════════════════╗"))
 print(v_dong("║  Tool Trao Đổi Sub  ║"))
 print(v_dong("╚═════════════════════╝"))
@@ -106,51 +122,64 @@ print(f"{xnhac}[9.1] {luc}MÁY TÍNH          {xnhac}[9.2] {luc}BẮN MÁY BAY")
 print(f"{xnhac}[00 ] {do}THOÁT TOOL")
 
 print(v_dong("\n────────────────────────────────────────────────────────────"))
-chon = str(input(f'{xnhac}[{trang}×{xnhac}] {trang}Nhập Lựa Chọn {xnhac}➤ {vang}'))
+chon = str(input(f'{xnhac}[{trang}×{xnhac}] {trang}Nhập Lựa Chọn {xnhac}➤ {vang}')).strip()
 
-# --- LOGIC THỰC THI (GIỮ NGUYÊN) ---
-if chon == '00': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/thoattool/main/.github/workflows/main.yml').text)
-elif chon == '1.1': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/TDS-TIKTOK-V1/main/tool.py').text)
-elif chon == '1.2': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Tdstikv2/main/00.py').text)
-elif chon == '1.3': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Tik-tiknow/main/1.py').text) 
-elif chon == '1.4': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/TDS-IG/main/3.py').text) 
-elif chon == '1.5': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Mktds/main/4.py').text) 
-elif chon == '2.1': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Spamsmsv1/main/sms.py').text)
-elif chon == '2.2': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Spamsmsv2/main/smsv2.py').text)
-elif chon == '3.1': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Daomail/main/8.py').text)
-elif chon == '3.2': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Full-mail/main/vietcode_toolmeow.py').text)
-elif chon == '3.3': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Checklivedie/main/p.py').text)
-elif chon == '3.4': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/checkvali/main/10.py').text)
-elif chon == '3.5': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Reggrn/main/Reggrn').text)
-elif chon == '4.1': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Checklivedieproxy/main/p.py').text)
-elif chon == '4.2': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Check-live-die-v2/main/q.py').text)
-elif chon == '4.3': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Checklivediev2/main/p.py').text)
-elif chon == '4.4': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Daoprxv1/main/daoprxv1.py').text)
-elif chon == '4.5': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Daoprxv2/main/p.py').text)
-elif chon == '4.6': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Daoproxyv3/main/p.py').text)
-elif chon == '4.7': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Daoproxyv4/main/p.py').text)
-elif chon == '4.8': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Daoproxyv4vip/main/p.py').text)
-elif chon == '5.1': exec(requests.get('https://raw.githubusercontent.com/KhanhNguyen9872/hyperion_deobfuscate/main/hyperion_deobf.py').text)
-elif chon == '5.2': exec(requests.get('https://raw.githubusercontent.com/KhanhNguyen9872/kramer-specter_deobf/main/kramer-specter-deobf.py').text)
-elif chon == '5.3': exec(requests.get('https://raw.githubusercontent.com/KhanhNguyen9872/dump_marshal_py/main/dump_marshal.py').text)
-elif chon == '5.4': exec(requests.get('https://raw.githubusercontent.com/KhanhNguyen9872/Convert_Marshal-PYC/main/cv_marshal_pyc.py').text)
-elif chon == '5.5': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Encode-MZB/main/en.py').text)
-elif chon == '5.6': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Encode-Emoji-/main/p.py').text)
-elif chon == '5.7': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Encode-ejuly-DUYKHANH/main/encode.py').text)
-elif chon == '6.1': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Golike/main/golike.py').text)
-elif chon == '6.2': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Golike-ig/main/p.py').text)
-elif chon == '6.3': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Golike-Twitter-/main/p.py').text)
-elif chon == '7.1': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Tool-vlong/main/p.py').text)
-elif chon == '7.2': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Tool-trinh-huong/main/huong.py').text)
-elif chon == '7.3': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Full-mail/main/vietcode_toolmeow.py').text)
-elif chon == '7.4': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Tool-hdt/main/p.py').text)
-elif chon == '7.5': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Tool-lkz/main/p.py').text)
-elif chon == '7.6': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Tool-jray/main/haha.py').text)
-elif chon == '7.7': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Beta-tool/main/beta.py').text)
-elif chon == '8.1': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/DOSS-WEB/main/dos.py').text)
-elif chon == '8.2': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Reg-pro5-vip/main/reg.py').text)
-elif chon == '8.3': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Rutgonlink/main/10.py').text)
-elif chon == '8.4': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/Phanhoilink/main/10.py').text)
-elif chon == '8.5': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/L-c-Link-T-File/main/10.py').text)
-elif chon == '9.1': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/May-tinh/main/0.py').text)
-elif chon == '9.2': exec(requests.get('https://raw.githubusercontent.com/Khanh23047/May-bay/main/1.py').text)
+# --- LOGIC THỰC THI (ĐÃ FIX LỖI REQUEST) ---
+def run_tool(url):
+    try:
+        response = requests.get(url, timeout=10)
+        if response.status_code == 200:
+            exec(response.text)
+        else:
+            print(f"{do}[!] Lỗi: Không thể lấy file từ GitHub (Code {response.status_code})")
+    except Exception as e:
+        print(f"{do}[!] Lỗi thực thi: {e}")
+
+if chon == '00': run_tool('https://raw.githubusercontent.com/Khanh23047/thoattool/main/.github/workflows/main.yml')
+elif chon == '1.1': run_tool('https://raw.githubusercontent.com/Khanh23047/TDS-TIKTOK-V1/main/tool.py')
+elif chon == '1.2': run_tool('https://raw.githubusercontent.com/Khanh23047/Tdstikv2/main/00.py')
+elif chon == '1.3': run_tool('https://raw.githubusercontent.com/Khanh23047/Tik-tiknow/main/1.py')
+elif chon == '1.4': run_tool('https://raw.githubusercontent.com/Khanh23047/TDS-IG/main/3.py')
+elif chon == '1.5': run_tool('https://raw.githubusercontent.com/Khanh23047/Mktds/main/4.py')
+elif chon == '2.1': run_tool('https://raw.githubusercontent.com/Khanh23047/Spamsmsv1/main/sms.py')
+elif chon == '2.2': run_tool('https://raw.githubusercontent.com/Khanh23047/Spamsmsv2/main/smsv2.py')
+elif chon == '3.1': run_tool('https://raw.githubusercontent.com/Khanh23047/Daomail/main/8.py')
+elif chon == '3.2': run_tool('https://raw.githubusercontent.com/Khanh23047/Full-mail/main/vietcode_toolmeow.py')
+elif chon == '3.3': run_tool('https://raw.githubusercontent.com/Khanh23047/Checklivedie/main/p.py')
+elif chon == '3.4': run_tool('https://raw.githubusercontent.com/Khanh23047/checkvali/main/10.py')
+elif chon == '3.5': run_tool('https://raw.githubusercontent.com/Khanh23047/Reggrn/main/Reggrn')
+elif chon == '4.1': run_tool('https://raw.githubusercontent.com/Khanh23047/Checklivedieproxy/main/p.py')
+elif chon == '4.2': run_tool('https://raw.githubusercontent.com/Khanh23047/Check-live-die-v2/main/q.py')
+elif chon == '4.3': run_tool('https://raw.githubusercontent.com/Khanh23047/Checklivediev2/main/p.py')
+elif chon == '4.4': run_tool('https://raw.githubusercontent.com/Khanh23047/Daoprxv1/main/daoprxv1.py')
+elif chon == '4.5': run_tool('https://raw.githubusercontent.com/Khanh23047/Daoprxv2/main/p.py')
+elif chon == '4.6': run_tool('https://raw.githubusercontent.com/Khanh23047/Daoproxyv3/main/p.py')
+elif chon == '4.7': run_tool('https://raw.githubusercontent.com/Khanh23047/Daoproxyv4/main/p.py')
+elif chon == '4.8': run_tool('https://raw.githubusercontent.com/Khanh23047/Daoproxyv4vip/main/p.py')
+elif chon == '5.1': run_tool('https://raw.githubusercontent.com/KhanhNguyen9872/hyperion_deobfuscate/main/hyperion_deobf.py')
+elif chon == '5.2': run_tool('https://raw.githubusercontent.com/KhanhNguyen9872/kramer-specter_deobf/main/kramer-specter-deobf.py')
+elif chon == '5.3': run_tool('https://raw.githubusercontent.com/KhanhNguyen9872/dump_marshal_py/main/dump_marshal.py')
+elif chon == '5.4': run_tool('https://raw.githubusercontent.com/KhanhNguyen9872/Convert_Marshal-PYC/main/cv_marshal_pyc.py')
+elif chon == '5.5': run_tool('https://raw.githubusercontent.com/Khanh23047/Encode-MZB/main/en.py')
+elif chon == '5.6': run_tool('https://raw.githubusercontent.com/Khanh23047/Encode-Emoji-/main/p.py')
+elif chon == '5.7': run_tool('https://raw.githubusercontent.com/Khanh23047/Encode-ejuly-DUYKHANH/main/encode.py')
+elif chon == '6.1': run_tool('https://raw.githubusercontent.com/Khanh23047/Golike/main/golike.py')
+elif chon == '6.2': run_tool('https://raw.githubusercontent.com/Khanh23047/Golike-ig/main/p.py')
+elif chon == '6.3': run_tool('https://raw.githubusercontent.com/Khanh23047/Golike-Twitter-/main/p.py')
+elif chon == '7.1': run_tool('https://raw.githubusercontent.com/Khanh23047/Tool-vlong/main/p.py')
+elif chon == '7.2': run_tool('https://raw.githubusercontent.com/Khanh23047/Tool-trinh-huong/main/huong.py')
+elif chon == '7.3': run_tool('https://raw.githubusercontent.com/Khanh23047/Full-mail/main/vietcode_toolmeow.py')
+elif chon == '7.4': run_tool('https://raw.githubusercontent.com/Khanh23047/Tool-hdt/main/p.py')
+elif chon == '7.5': run_tool('https://raw.githubusercontent.com/Khanh23047/Tool-lkz/main/p.py')
+elif chon == '7.6': run_tool('https://raw.githubusercontent.com/Khanh23047/Tool-jray/main/haha.py')
+elif chon == '7.7': run_tool('https://raw.githubusercontent.com/Khanh23047/Beta-tool/main/beta.py')
+elif chon == '8.1': run_tool('https://raw.githubusercontent.com/Khanh23047/DOSS-WEB/main/dos.py')
+elif chon == '8.2': run_tool('https://raw.githubusercontent.com/Khanh23047/Reg-pro5-vip/main/reg.py')
+elif chon == '8.3': run_tool('https://raw.githubusercontent.com/Khanh23047/Rutgonlink/main/10.py')
+elif chon == '8.4': run_tool('https://raw.githubusercontent.com/Khanh23047/Phanhoilink/main/10.py')
+elif chon == '8.5': run_tool('https://raw.githubusercontent.com/Khanh23047/L-c-Link-T-File/main/10.py')
+elif chon == '9.1': run_tool('https://raw.githubusercontent.com/Khanh23047/May-tinh/main/0.py')
+elif chon == '9.2': run_tool('https://raw.githubusercontent.com/Khanh23047/May-bay/main/1.py')
+else:
+    print(f"{do}[!] Lựa chọn không hợp lệ!")
+    sleep(2)
